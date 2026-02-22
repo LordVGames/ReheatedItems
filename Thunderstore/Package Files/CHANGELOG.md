@@ -8,6 +8,8 @@
 - Void Dios
 - - Removed void jailer as a respawn option due to them being broken when a client plays as one (new vanilla issue afaik)
 - - Swapped reaver config option for an option where you can specify whatever bodies you want to possibly respawn as
+- Void Crit
+- - Changed to do "super crits" instead of instakills with a slightly higher chance than vanilla
 - Guillotine
 - - Reworked to be an equipment that deals damage and disables elite effects for a bit
 - ATG

@@ -24,7 +24,3 @@ There's a bunch of items in RoR2 that are either underwhelming, aren't very fun/
 - Sticky Bomb
 - Planula
 - More(?)
-
-## Mod Item Changes
-
-Another mod of mine, [StarstormSquared](https://thunderstore.io/package/LordVGames/StarstormSquared/), changes a few items in the mod Starstorm 2.
