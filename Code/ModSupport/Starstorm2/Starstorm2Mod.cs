@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-namespace ReheatedItems.ModSupport.WolfFixes;
+namespace ReheatedItems.ModSupport.Starstorm2;
 
 
-internal class WolfFixesMod
+internal static class Starstorm2Mod
 {
-    internal const string ModGUID = "Early.Wolfo.WolfFixes";
     private static bool? _enabled;
 
     internal static bool ModIsRunning
     {
         get
         {
-            _enabled ??= BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(ModGUID);
+            _enabled ??= BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(SS2.SS2Main.GUID);
             return (bool)_enabled;
         }
     }

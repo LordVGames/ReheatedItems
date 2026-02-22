@@ -1,14 +1,18 @@
-﻿{
-	"name": "LordsItemEdits",
-	"version_number": "0.4.2",
-	"website_url": "https://github.com/LordVGames/LordsItemEdits",
-	"description": "A W.I.P collection of item edits by me that makes some items more fun, interesting, and/or better for performance.",
+{
+	"name": "ReheatedItems",
+	"version_number": "0.5.0",
+	"website_url": "https://github.com/LordVGames/ReheatedItems",
+	"description": "A W.I.P collection of changes to vanilla & DLC items to make some items more fun, interesting, and/or better for performance.",
 	"dependencies": [
 		"bbepis-BepInExPack-5.4.2121",
-		"MonoDetour-MonoDetour_BepInEx_5-0.7.8",
+		"MonoDetour-MonoDetour_BepInEx_5-0.7.10",
 		"RiskofThunder-R2API_Core-5.1.6",
 		"RiskofThunder-R2API_Language-1.1.0",
 		"RiskofThunder-R2API_ContentManagement-1.0.10",
+		"RiskofThunder-R2API_RecalculateStats-1.6.5",
+		"RiskofThunder-R2API_ProcType-1.0.2",
+		"RiskofThunder-R2API_Items-1.0.8",
+		"RiskofThunder-R2API_Prefab-1.1.1",
 		"Smooth_Salad-ShaderSwapper-1.0.1"
 	]
 }

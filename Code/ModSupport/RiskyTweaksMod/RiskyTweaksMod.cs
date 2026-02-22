@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-namespace LordsItemEdits.ModSupport.RiskyTweaksMod;
+namespace ReheatedItems.ModSupport.RiskyTweaksMod;
 
 
 internal static class RiskyTweaksMod

@@ -400,7 +400,9 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Manually added for the unity project
-/Unity/LordsItemEdits/AssetBundles
-/Unity/LordsItemEdits/Library
-/Unity/LordsItemEdits/Logs
-/Unity/LordsItemEdits/Temp
+/Unity/ReheatedItems/AssetBundles
+/Unity/ReheatedItems/Library
+/Unity/ReheatedItems/Logs
+/Unity/ReheatedItems/Packages
+/Unity/ReheatedItems/Temp
+/Unity/ReheatedItems/UserSettings

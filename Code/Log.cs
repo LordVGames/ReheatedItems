@@ -1,5 +1,5 @@
-﻿using BepInEx.Logging;
-namespace LordsItemEdits;
+using BepInEx.Logging;
+namespace ReheatedItems;
 
 
 internal static class Log

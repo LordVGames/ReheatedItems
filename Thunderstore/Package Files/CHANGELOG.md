@@ -1,3 +1,25 @@
+## 0.5.0
+
+- Renamed mod
+- Warbonds
+- - Changed to work like a red-tier band item that also helps with money
+- Stun Grenade
+- - Changed to a green item, now does some total damage and applies a debuff that reduces a few stats instead of stunning
+- Void Dios
+- - Removed void jailer as a respawn option due to them being broken when a client plays as one (new vanilla issue afaik)
+- - Swapped reaver config option for an option where you can specify whatever bodies you want to possibly respawn as
+- Guillotine
+- - Reworked to be an equipment that deals damage and disables elite effects for a bit
+- ATG
+- - Fixed missile damage not increasing from having Pocket ICBM 
+- Molten Perforator
+- - Fixed proc chain mask not being used from previous hit
+
+## 0.4.3
+
+- Fixed for newest WolfFixes update (this mod was breaking due to it)
+
+
 ## 0.4.2
 
 - Fixed for AC patch 1
@@ -20,7 +42,7 @@
 ## 0.4.0
 
 - Fixed for AC release
-- Removed SS2 item edits as they've been moved to LordsStarstormEdits
+- Removed SS2 item changes as they've been moved to LordsStarstormEdits
 - Ported what was still on MonoMod to MonoDetour
 
 - Molten Perforator
@@ -40,12 +62,12 @@
 ## 0.3.3
 
 - Executive Card
-- - Prevents WolfFixes from setting the cooldown to 0 which replaced the cooldown my edit sets
+- - Prevents WolfFixes from setting the cooldown to 0 which replaced this mod's cooldown change
 
 ## 0.3.2
 
 - All items
-- - Fixed description edits still applying if an item's edit is disabled
+- - Fixed description changes still applying if an item's change is disabled
 
 ## 0.3.1
 

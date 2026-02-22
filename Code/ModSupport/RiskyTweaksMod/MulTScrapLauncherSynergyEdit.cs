@@ -12,8 +12,8 @@ using RiskyTweaks.Tweaks.Survivors.Toolbot;
 using RoR2;
 using UnityEngine;
 using HarmonyLib;
-using LordsItemEdits.ItemEdits.PocketICBMEdit;
-namespace LordsItemEdits.ModSupport.RiskyTweaksMod;
+using ReheatedItems.ItemChanges.PocketICBMMissilesToDamage;
+namespace ReheatedItems.ModSupport.RiskyTweaksMod;
 
 
 [MonoDetourTargets(typeof(ScrapICBM), GenerateControlFlowVariants = true)]

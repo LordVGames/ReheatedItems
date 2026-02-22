@@ -9,8 +9,8 @@ using MonoDetour.Cil;
 using UnityEngine;
 using RoR2;
 using RoR2.Orbs;
-using LordsItemEdits.ItemEdits.PocketICBMEdit;
-namespace LordsItemEdits.ModSupport.RocketSurvivorGuy;
+using ReheatedItems.ItemChanges.PocketICBMMissilesToDamage;
+namespace ReheatedItems.ModSupport.RocketSurvivorGuy;
 
 
 [MonoDetourTargets(typeof(EntityStates.RocketSurvivorSkills.Primary.FireRocket))]

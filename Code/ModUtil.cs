@@ -1,4 +1,4 @@
-﻿using Mono.Cecil.Cil;
+using Mono.Cecil.Cil;
 using MonoDetour.Cil;
 using MonoDetour.Cil.Analysis;
 using MonoMod.Cil;
@@ -11,7 +11,8 @@ using SimpleJSON;
 using System;
 using System.Collections.Generic;
 using System.Text;
-namespace LordsItemEdits;
+using UnityEngine.Networking;
+namespace ReheatedItems;
 
 
 internal static class ModUtil
@@ -91,7 +92,7 @@ internal static class ModUtil
         );
         if (!match.IsValid)
         {
-            Log.Warning("NOT VALID????");
+            Log.Warning("FireProjectile WAS NOT VALID????");
             w.MatchNextRelaxed(
                 x => x.MatchCallOrCallvirt<ProjectileManager>("FireProjectileWithoutDamageType") && w.SetCurrentTo(x)
             ).ThrowIfFailure();
@@ -99,5 +100,84 @@ internal static class ModUtil
 
         
         w.MarkLabelToCurrentNext(skipOverBad);
+    }
+
+
+    internal static bool IsDamageReportNull(DamageReport damageReport)
+    {
+        return damageReport.victim == null
+            || damageReport.victimBody == null
+            || damageReport.attacker == null
+            || damageReport.attackerBody == null
+            || damageReport.attackerBody.inventory == null
+            || damageReport.attackerMaster == null;
+    }
+
+
+    internal static bool IsDamageInfoNull(DamageInfo damageInfo)
+    {
+        return damageInfo.attacker == null
+            || damageInfo.inflictor == null;
+    }
+
+
+    internal static DamageInfo CreateNewDamageInfoFromDamageReport(DamageReport damageReport)
+    {
+        // i hate making deep copies
+        return new()
+        {
+            attacker = damageReport.damageInfo.attacker,
+            canRejectForce = damageReport.damageInfo.canRejectForce,
+            crit = damageReport.damageInfo.crit,
+            damageType = damageReport.damageInfo.damageType,
+            delayedDamageSecondHalf = damageReport.damageInfo.delayedDamageSecondHalf,
+            dotIndex = damageReport.damageInfo.dotIndex,
+            firstHitOfDelayedDamageSecondHalf = damageReport.damageInfo.firstHitOfDelayedDamageSecondHalf,
+            inflictedHurtbox = damageReport.damageInfo.inflictedHurtbox,
+            inflictor = damageReport.damageInfo.inflictor,
+            physForceFlags = damageReport.damageInfo.physForceFlags,
+            position = damageReport.damageInfo.position,
+            rejected = damageReport.damageInfo.rejected,
+            force = damageReport.damageInfo.force,
+            procCoefficient = 1,
+            procChainMask = damageReport.damageInfo.procChainMask,
+            damage = damageReport.damageInfo.damage,
+            damageColorIndex = DamageColorIndex.Item
+        };
+    }
+
+
+    internal static readonly DamageTypeCombo GenericEquipmentDamageType = new()
+    {
+        damageType = DamageType.Generic,
+        damageTypeExtended = DamageTypeExtended.Generic,
+        damageSource = DamageSource.Equipment
+    };
+
+
+    internal static void AddBuffOnServer(this CharacterBody characterBody, BuffDef buffDef)
+    {
+        if (NetworkServer.active)
+        {
+            characterBody.AddBuff(buffDef);
+        }
+    }
+
+
+    internal static void AddTimedBuffOnServer(this CharacterBody characterBody, BuffDef buffDef, float duration)
+    {
+        if (NetworkServer.active)
+        {
+            characterBody.AddTimedBuff(buffDef, duration);
+        }
+    }
+
+
+    internal static void RemoveBuffOnServer(this CharacterBody characterBody, BuffDef buffDef)
+    {
+        if (NetworkServer.active)
+        {
+            characterBody.RemoveBuff(buffDef);
+        }
     }
 }

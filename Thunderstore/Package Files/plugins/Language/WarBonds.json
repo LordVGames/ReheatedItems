@@ -1,0 +1,6 @@
+{
+    "strings": {
+        "ITEM_BARRAGEONBOSS_PICKUP": "Chance to spawn temporary gold chunks on hit. Pick up gold chunks to build up a powerful missile strike for your next high-damage skill hit.",
+        "ITEM_BARRAGEONBOSS_DESC": "Enemies hit have a <style=cIsUtility>20%</style> chance to drop a temporary <style=cShrine>gold chunk</style>. Every <style=cIsUtility>5</style> gold chunks picked up will call down a missile that deals <style=cIsDamage>2x800%</style> <style=cStack>(+600% per stack)</style> TOTAL damage the next time you hit an enemy with a <style=cIsUtility>skill</style> that deals <style=cIsDamage>400%</style> damage or more. <style=cSub>Maximum of 5 missiles.</style>"
+    }
+}

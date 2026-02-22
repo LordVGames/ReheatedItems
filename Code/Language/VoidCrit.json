@@ -1,0 +1,6 @@
+{
+  "strings": {
+    "ITEM_CRITGLASSESVOID_PICKUP": "Gain a very small chance to deal a huge amount of damage and activate \"on-crit\" effects twice. <style=cIsVoid>Corrupts all Lens-Maker's Glasses</style>.",
+    "ITEM_CRITGLASSESVOID_DESC": "<style=cIsUtility>1%</style> <style=cStack>(+1% per stack)</style> chance on hit to activate <style=cIsDamage>\"On Crit\"</style> effects <style=cIsUtility>twice</style> and deal <style=cIsDamage>800%</style> damage, or <style=cIsDamage>800%</style> TOTAL damage if activated by a <style=cIsUtility>skill</style>. <style=cIsVoid>Corrupts all Lens-Maker's Glasses</style>."
+  }
+}

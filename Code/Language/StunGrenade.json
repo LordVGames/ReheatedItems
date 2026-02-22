@@ -1,0 +1,6 @@
+{
+  "strings": {
+    "ITEM_STUNCHANCEONHIT_PICKUP": "Chance on hit to damage and daze an enemy, reducing some of their stats.",
+    "ITEM_STUNCHANCEONHIT_DESC": "<style=cIsDamage>5%</style> <style=cStack>(+5% per stack)</style> chance on hit to deal <style=cIsDamage>200%</style> TOTAL damage and <style=cIsUtility>daze</style> the hit enemy for <style=cIsUtility>8 seconds</style>. <style=cSub>Dazed enemies have -30% attack speed, -20% movement speed, and -15% damage.</style>"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "strings": {
+    "EQUIPMENT_GUILLOTINE_PICKUP": "Damage a targeted enemy and disable their elite effects temporarily.",
+    "EQUIPMENT_GUILLOTINE_DESC": "Deal <style=cIsDamage>1000%</style> damage to a targeted enemy and <style=cIsUtility>disable</style> any <style=cDeath>elite effects</style> it has for <style=cIsUtility>12 seconds</style>."
+  }
+}
