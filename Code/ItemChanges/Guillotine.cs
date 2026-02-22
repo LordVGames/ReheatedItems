@@ -8,6 +8,7 @@ using MonoMod.Cil;
 using R2API;
 using RoR2;
 using RoR2.ContentManagement;
+using RoR2.ExpansionManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ using UnityEngine.Networking;
 namespace ReheatedItems.ItemChanges;
 
 
-[MonoDetourTargets]
+[MonoDetourTargets(typeof(RoR2.UI.LogBook.LogBookController), GenerateControlFlowVariants = true)]
 public static class Guillotine
 {
     private const float _cooldownTime = 40.0f;
@@ -305,7 +306,22 @@ public static class Guillotine
             Mdh.RoR2.EquipmentSlot.UpdateTargets.ControlFlowPrefix(Targeting);
             Mdh.RoR2.CharacterBody.SetBuffCount.ControlFlowPrefix(SetBuffCount);
             Mdh.RoR2.CharacterBody.RecalculateStats.ILHook(ScaryHook);
+            Mdh.RoR2.UI.LogBook.LogBookController.CanSelectEquipmentEntry.ControlFlowPrefix(AddToLogbook);
         }
+
+
+        private static ReturnFlow AddToLogbook(ref EquipmentDef equipmentDef, ref Dictionary<ExpansionDef, bool> expansionAvailability, ref bool returnValue)
+        {
+            if (equipmentDef != Equipment.edGuillotine)
+            {
+                return ReturnFlow.None;
+            }
+
+
+            returnValue = true;
+            return ReturnFlow.SkipOriginal;
+        }
+
 
         private static void ScaryHook(ILManipulationInfo info)
         {
