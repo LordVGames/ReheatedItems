@@ -16,6 +16,7 @@ namespace ReheatedItems.ItemChanges;
 
 [MonoDetourTargets(typeof(RoR2.Items.MultiShopCardUtils))]
 [MonoDetourTargets(typeof(WolfoFixes.EquipmentFixes))]
+[MonoDetourTargets(typeof(EquipmentSlot), GenerateControlFlowVariants = true)]
 public static class ExecutiveCard
 {
     [MonoDetourHookInitialize]
@@ -29,8 +30,8 @@ public static class ExecutiveCard
         ModLanguage.LangFilesToLoad.Add("ExecutiveCard");
         CreditScoreBuff.SetupBuff();
         EquipmentDefEdits.Setup();
+        Hooks.Setup();
     }
-
 
 
     public static class CreditScoreBuff
@@ -95,142 +96,88 @@ public static class ExecutiveCard
     }
 
 
-    [MonoDetourTargets]
-    private static class ILHooks
+    private static class Hooks
     {
-        [MonoDetourHookInitialize]
         internal static void Setup()
         {
-            MultiShopCardUtils.Setup();
-            //DontFixMyCooldownPlease.Setup();
-        }
-
-        private static class MultiShopCardUtils
-        {
-            internal static void Setup()
-            {
-                Mdh.RoR2.Items.MultiShopCardUtils.OnPurchase.ILHook(UseCreditScoreBuffPls);
-            }
-
-            private static void UseCreditScoreBuffPls(ILManipulationInfo info)
-            {
-                ILWeaver w = new(info);
-                ILLabel exitCode = w.DefineLabel();
-                ILLabel skipFirstBadChecks = w.DefineLabel();
-                ILLabel skipSecondBadChecks = w.DefineLabel();
-
-                // going a little into a long line that starts with:
-                // if (activatorMaster
-                w.MatchRelaxed(
-                    x => x.MatchLdloc(0),
-                    x => x.MatchCallvirt<CharacterMaster>("get_hasBody"),
-                    x => x.MatchBrfalse(out exitCode) && w.SetCurrentTo(x)
-                ).ThrowIfFailure()
-                .InsertAfterCurrent(
-                    w.Create(OpCodes.Br, skipFirstBadChecks)
-                );
-
-
-                // going to end of same line above
-                w.MatchRelaxed(
-                    x => x.MatchLdsfld("RoR2.DLC1Content/Equipment", "MultiShopCard"),
-                    x => x.MatchCallvirt<EquipmentDef>("get_equipmentIndex"),
-                    x => x.MatchBneUn(out _) && w.SetCurrentTo(x)
-                ).ThrowIfFailure()
-                .MarkLabelToCurrentNext(skipFirstBadChecks);
-
-
-                // going to before:
-                // if (body.equipmentSlot.stock > 0)
-                w.MatchRelaxed(
-                    x => x.MatchLdloc(0),
-                    x => x.MatchCallvirt<CharacterMaster>("GetBody"),
-                    x => x.MatchStloc(1) && w.SetCurrentTo(x)
-                ).ThrowIfFailure()
-                .InsertAfterCurrent(
-                    w.Create(OpCodes.Ldloc_1),
-                    w.CreateCall(DoesBodyHaveCreditScore),
-                    w.Create(OpCodes.Brfalse, exitCode),
-                    w.Create(OpCodes.Br, skipSecondBadChecks)
-                );
-
-
-                // going to after the line above
-                w.MatchRelaxed(
-                    x => x.MatchLdloc(1),
-                    x => x.MatchCallvirt<CharacterBody>("get_equipmentSlot"),
-                    x => x.MatchCallvirt<EquipmentSlot>("get_stock"),
-                    x => x.MatchLdcI4(0),
-                    x => x.MatchBle(out _) && w.SetCurrentTo(x)
-                ).ThrowIfFailure()
-                .MarkLabelToCurrentNext(skipSecondBadChecks)
-                .CurrentToNext()
-                .InsertAfterCurrent(
-                    w.Create(OpCodes.Ldloc_1),
-                    w.CreateCall(RemoveCreditScoreBuffFromBody)
-                );
-
-                //w.LogILInstructions();
-            }
-
-            private static bool DoesBodyHaveCreditScore(CharacterBody characterBody)
-            {
-                return characterBody.HasBuff(CreditScoreBuff.bdCreditScore);
-            }
-
-            private static void RemoveCreditScoreBuffFromBody(CharacterBody characterBody)
-            {
-                if (characterBody.HasBuff(CreditScoreBuff.bdCreditScore))
-                {
-                    characterBody.RemoveBuff(CreditScoreBuff.bdCreditScore);
-                }
-            }
-        }
-
-
-        private static class DontFixMyCooldownPlease
-        {
-            internal static void Setup()
-            {
-                Mdh.WolfoFixes.EquipmentFixes.GameplayFixes.ILHook(SkipSettingCooldownToZero);
-            }
-
-            private static void SkipSettingCooldownToZero(ILManipulationInfo info)
-            {
-                ILWeaver w = new(info);
-                ILLabel skipOverCooldownSetting = w.DefineLabel();
-
-                // going before line:
-                // Addressables.LoadAssetAsync<EquipmentDef>("f2ddbb7586240e648945ad494ebe3984").WaitForCompletion().cooldown = 0f;
-                w.MatchRelaxed(
-                    x => x.MatchLdstr("f2ddbb7586240e648945ad494ebe3984") && w.SetCurrentTo(x)
-                ).ThrowIfFailure()
-                .InsertBeforeCurrent(
-                    w.Create(OpCodes.Br, skipOverCooldownSetting)
-                );
-
-                // going after same line above
-                w.MatchRelaxed(
-                    x => x.MatchCall(out _),
-                    x => x.MatchLdcR4(0),
-                    x => x.MatchStfld<EquipmentDef>("cooldown") && w.SetCurrentTo(x)
-                ).ThrowIfFailure()
-                .MarkLabelToCurrentNext(skipOverCooldownSetting);
-
-                //w.LogILInstructions();
-            }
-        }
-    }
-
-
-    [MonoDetourTargets(typeof(EquipmentSlot), GenerateControlFlowVariants = true)]
-    private static class OtherHooks
-    {
-        [MonoDetourHookInitialize]
-        internal static void Setup()
-        {
+            Mdh.RoR2.Items.MultiShopCardUtils.OnPurchase.ILHook(UseCreditScoreBuffPls);
             Mdh.RoR2.EquipmentSlot.PerformEquipmentAction.ControlFlowPrefix(EquipmentSlot_PerformEquipmentAction);
         }
+
+
+        private static void UseCreditScoreBuffPls(ILManipulationInfo info)
+        {
+            ILWeaver w = new(info);
+            ILLabel exitCode = w.DefineLabel();
+            ILLabel skipFirstBadChecks = w.DefineLabel();
+            ILLabel skipSecondBadChecks = w.DefineLabel();
+
+            // going a little into a long line that starts with:
+            // if (activatorMaster
+            w.MatchRelaxed(
+                x => x.MatchLdloc(0),
+                x => x.MatchCallvirt<CharacterMaster>("get_hasBody"),
+                x => x.MatchBrfalse(out exitCode) && w.SetCurrentTo(x)
+            ).ThrowIfFailure()
+            .InsertAfterCurrent(
+                w.Create(OpCodes.Br, skipFirstBadChecks)
+            );
+
+
+            // going to end of same line above
+            w.MatchRelaxed(
+                x => x.MatchLdsfld("RoR2.DLC1Content/Equipment", "MultiShopCard"),
+                x => x.MatchCallvirt<EquipmentDef>("get_equipmentIndex"),
+                x => x.MatchBneUn(out _) && w.SetCurrentTo(x)
+            ).ThrowIfFailure()
+            .MarkLabelToCurrentNext(skipFirstBadChecks);
+
+
+            // going to before:
+            // if (body.equipmentSlot.stock > 0)
+            w.MatchRelaxed(
+                x => x.MatchLdloc(0),
+                x => x.MatchCallvirt<CharacterMaster>("GetBody"),
+                x => x.MatchStloc(1) && w.SetCurrentTo(x)
+            ).ThrowIfFailure()
+            .InsertAfterCurrent(
+                w.Create(OpCodes.Ldloc_1),
+                w.CreateCall(DoesBodyHaveCreditScore),
+                w.Create(OpCodes.Brfalse, exitCode),
+                w.Create(OpCodes.Br, skipSecondBadChecks)
+            );
+
+
+            // going to after the line above
+            w.MatchRelaxed(
+                x => x.MatchLdloc(1),
+                x => x.MatchCallvirt<CharacterBody>("get_equipmentSlot"),
+                x => x.MatchCallvirt<EquipmentSlot>("get_stock"),
+                x => x.MatchLdcI4(0),
+                x => x.MatchBle(out _) && w.SetCurrentTo(x)
+            ).ThrowIfFailure()
+            .MarkLabelToCurrentNext(skipSecondBadChecks)
+            .CurrentToNext()
+            .InsertAfterCurrent(
+                w.Create(OpCodes.Ldloc_1),
+                w.CreateCall(RemoveCreditScoreBuffFromBody)
+            );
+
+            //w.LogILInstructions();
+        }
+        private static bool DoesBodyHaveCreditScore(CharacterBody characterBody)
+        {
+            return characterBody.HasBuff(CreditScoreBuff.bdCreditScore);
+        }
+        private static void RemoveCreditScoreBuffFromBody(CharacterBody characterBody)
+        {
+            if (characterBody.HasBuff(CreditScoreBuff.bdCreditScore))
+            {
+                characterBody.RemoveBuff(CreditScoreBuff.bdCreditScore);
+            }
+        }
+
+
 
 
         private static ReturnFlow EquipmentSlot_PerformEquipmentAction(EquipmentSlot self, ref EquipmentDef equipmentDef, ref bool returnValue)
@@ -246,8 +193,6 @@ public static class ExecutiveCard
             }
             return ReturnFlow.SkipOriginal;
         }
-
-
         private static void AddCreditScoreStacks(CharacterBody characterBody)
         {
             // i really have to AddBuff on 2 separate lines................ts pmo......................................................

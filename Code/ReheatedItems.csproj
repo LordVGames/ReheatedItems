@@ -16,7 +16,7 @@
 	<PropertyGroup>
 		<AssemblyName>LordVGames.ReheatedItems</AssemblyName>
 		<AssemblyTitle>ReheatedItems</AssemblyTitle>
-		<Version>0.5.0</Version>
+		<Version>0.5.1</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">

@@ -1,3 +1,8 @@
+## 0.5.1
+
+- Executive Card
+- - Fixed some parts of the change not checking if the item change is disabled
+
 ## 0.5.0
 
 - Renamed mod

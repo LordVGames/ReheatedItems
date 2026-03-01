@@ -18,7 +18,7 @@ using UnityEngine.Events;
 namespace ReheatedItems.ItemChanges;
 
 
-[MonoDetourTargets]
+[MonoDetourTargets(typeof(SetStateOnHurt))]
 public static class StunGrenade
 {
     private const float _procChance = 5f;
@@ -42,6 +42,7 @@ public static class StunGrenade
         VanillaAssets.Setup();
         ModAssets.Setup();
         DazeBuff.SetupBuff();
+        Hooks.Setup();
     }
 
 
@@ -133,11 +134,9 @@ public static class StunGrenade
     }
 
 
-    [MonoDetourTargets(typeof(SetStateOnHurt))]
     private static class Hooks
     {
-        [MonoDetourHookInitialize]
-        private static void Setup()
+        internal static void Setup()
         {
             Mdh.RoR2.SetStateOnHurt.OnTakeDamageServer.ILHook(OnTakeDamageServer);
             // normal stun grenade can only proc if the state can be changed on hurt, so it wouldn't work on bosses unless we make our own onServerDamageDealt

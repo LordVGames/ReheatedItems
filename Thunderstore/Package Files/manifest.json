@@ -1,6 +1,6 @@
 {
 	"name": "ReheatedItems",
-	"version_number": "0.5.0",
+	"version_number": "0.5.1",
 	"website_url": "https://github.com/LordVGames/ReheatedItems",
 	"description": "A W.I.P collection of changes to vanilla & DLC items to make some items more fun, interesting, and/or better for performance.",
 	"dependencies": [
